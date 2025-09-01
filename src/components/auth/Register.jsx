@@ -17,9 +17,10 @@ const Register = () => {
     year: '',
     // Admin specific fields
     adminKey: '',
-    // Lecturer specific fields (you'll need to add the actual fields based on your API)
+    // Lecturer specific fields
+    staffNo: '',
     department: '',
-    title: '',
+    lecturerSecretKey: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -75,10 +76,11 @@ const Register = () => {
       } else if (userType === 'lecturer') {
         registrationData = {
           ...registrationData,
+          staffNo: formData.staffNo,
           firstName: formData.firstName,
           lastName: formData.lastName,
           department: formData.department,
-          title: formData.title,
+          lecturerSecretKey: formData.lecturerSecretKey,
         };
       }
 
@@ -88,7 +90,22 @@ const Register = () => {
       alert('Registration successful! Please login with your credentials.');
       navigate('/login');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      console.error('Registration error:', err);
+      console.error('Error response:', err.response?.data);
+      
+      let errorMessage = 'Registration failed. Please try again.';
+      
+      if (err.response?.data?.detail) {
+        errorMessage = err.response.data.detail;
+      } else if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
+      } else if (err.response?.data?.error) {
+        errorMessage = err.response.data.error;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -335,6 +352,22 @@ const Register = () => {
                 </div>
 
                 <div>
+                  <label htmlFor="staffNo" className="block text-sm font-medium text-gray-700">
+                    Staff Number
+                  </label>
+                  <input
+                    id="staffNo"
+                    name="staffNo"
+                    type="text"
+                    required
+                    className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    placeholder="e.g., STAFF001"
+                    value={formData.staffNo}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div>
                   <label htmlFor="department" className="block text-sm font-medium text-gray-700">
                     Department
                   </label>
@@ -351,17 +384,17 @@ const Register = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                    Title
+                  <label htmlFor="lecturerSecretKey" className="block text-sm font-medium text-gray-700">
+                    Lecturer Secret Key
                   </label>
                   <input
-                    id="title"
-                    name="title"
-                    type="text"
+                    id="lecturerSecretKey"
+                    name="lecturerSecretKey"
+                    type="password"
                     required
                     className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="e.g., Dr., Prof."
-                    value={formData.title}
+                    placeholder="Enter lecturer secret key"
+                    value={formData.lecturerSecretKey}
                     onChange={handleChange}
                   />
                 </div>

@@ -7,24 +7,47 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // 10 seconds timeout
 });
 
 // Add token to requests if available
 api.interceptors.request.use(
   (config) => {
+    console.log('Making API request:', {
+      method: config.method?.toUpperCase(),
+      url: config.url,
+      data: config.data
+    });
     const token = localStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
 );
 
 // Handle token refresh
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('API response:', {
+      status: response.status,
+      url: response.config.url,
+      data: response.data
+    });
+    return response;
+  },
   async (error) => {
+    console.error('API error:', {
+      status: error.response?.status,
+      url: error.config?.url,
+      data: error.response?.data,
+      message: error.message
+    });
+    
     const originalRequest = error.config;
     
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -43,6 +66,7 @@ api.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return api(originalRequest);
         } catch (refreshError) {
+          console.error('Token refresh failed:', refreshError);
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('user');
@@ -70,6 +94,7 @@ export const authService = {
 
   // Lecturer registration
   registerLecturer: async (lecturerData) => {
+    console.log('Sending lecturer data:', lecturerData);
     const response = await api.post('/auth/register/lecturer', lecturerData);
     return response.data;
   },
