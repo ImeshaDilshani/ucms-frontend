@@ -6,7 +6,7 @@ import ProtectedRoute from './utils/ProtectedRoute';
 // Import Components
 import Home from './pages/Home';
 import Login from './components/auth/Login';
-import Register from './components/auth/Register';
+import UcmsRegister from './components/auth/UcmsRegister';
 import AdminDashboard from './pages/AdminDashboard';
 import LecturerDashboard from './pages/LecturerDashboard';
 import StudentDashboard from './pages/StudentDashboard';
@@ -42,7 +42,7 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<UcmsRegister />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             
             {/* Protected Routes */}
