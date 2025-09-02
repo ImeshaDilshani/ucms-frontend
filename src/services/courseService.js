@@ -158,6 +158,146 @@ const courseService = {
       console.error('Error deleting course:', error);
       throw error;
     }
+  },
+
+  // Student course viewing methods (new API endpoints)
+  // Get all available courses with pagination
+  getAvailableCoursesForStudents: async (filters = {}) => {
+    try {
+      const params = {
+        page: filters.page || 0,
+        size: filters.size || 20,
+        sortBy: filters.sortBy || 'code',
+        sortDir: filters.sortDir || 'asc'
+      };
+      
+      if (filters.code) params.code = filters.code;
+      if (filters.name) params.name = filters.name;
+      if (filters.department) params.department = filters.department;
+      
+      console.log('Fetching available courses for students with params:', params);
+      const response = await api.get('/students/courses', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching available courses for students:', error);
+      throw error;
+    }
+  },
+
+  // Get all available courses (simple list without pagination)
+  getAllAvailableCoursesForStudents: async () => {
+    try {
+      console.log('Fetching all available courses for students...');
+      const response = await api.get('/students/courses/all');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all available courses for students:', error);
+      throw error;
+    }
+  },
+
+  // Get course details by ID
+  getStudentCourseDetailsById: async (courseId) => {
+    try {
+      console.log('Fetching course details by ID:', courseId);
+      const response = await api.get(`/students/courses/${courseId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching course details by ID:', error);
+      throw error;
+    }
+  },
+
+  // Get course details by code
+  getStudentCourseDetailsByCode: async (code) => {
+    try {
+      console.log('Fetching course details by code:', code);
+      const response = await api.get(`/students/courses/code/${code}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching course details by code:', error);
+      throw error;
+    }
+  },
+
+  // Search courses by keyword
+  searchCourses: async (keyword, filters = {}) => {
+    try {
+      const params = {
+        keyword,
+        page: filters.page || 0,
+        size: filters.size || 20,
+        sortBy: filters.sortBy || 'code',
+        sortDir: filters.sortDir || 'asc'
+      };
+      
+      console.log('Searching courses with params:', params);
+      const response = await api.get('/students/courses/search', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error searching courses:', error);
+      throw error;
+    }
+  },
+
+  // Get courses by department
+  getCoursesByDepartment: async (department) => {
+    try {
+      console.log('Fetching courses by department:', department);
+      const response = await api.get(`/students/courses/department/${encodeURIComponent(department)}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching courses by department:', error);
+      throw error;
+    }
+  },
+
+  // Get courses by credits
+  getCoursesByCredits: async (credits) => {
+    try {
+      console.log('Fetching courses by credits:', credits);
+      const response = await api.get(`/students/courses/credits/${credits}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching courses by credits:', error);
+      throw error;
+    }
+  },
+
+  // Get courses available for enrollment
+  getCoursesAvailableForEnrollment: async () => {
+    try {
+      console.log('Fetching courses available for enrollment...');
+      const response = await api.get('/students/courses/enrollment/available');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching courses available for enrollment:', error);
+      throw error;
+    }
+  },
+
+  // Get courses available for enrollment by department
+  getCoursesAvailableForEnrollmentByDepartment: async (department) => {
+    try {
+      console.log('Fetching courses available for enrollment by department:', department);
+      const response = await api.get(`/students/courses/enrollment/available/department/${encodeURIComponent(department)}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching courses available for enrollment by department:', error);
+      throw error;
+    }
+  },
+
+  // Check course enrollment availability
+  checkCourseEnrollmentAvailability: async (courseId) => {
+    try {
+      console.log('Checking course enrollment availability for ID:', courseId);
+      const response = await api.get(`/students/courses/${courseId}/enrollment/check`);
+      return response.data;
+    } catch (error) {
+      console.error('Error checking course enrollment availability:', error);
+      throw error;
+    }
   }
 };
 
