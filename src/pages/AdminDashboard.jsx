@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import CourseManagement from '../components/admin/CourseManagement';
 
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('overview');
 
   const handleLogout = () => {
     logout();
@@ -12,76 +14,181 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+      <header style={{ borderBottom: '1px solid #ccc', padding: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h1>Admin Dashboard</h1>
+            <p>University Course Management System</p>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-sm text-gray-500">University Course Management System</p>
+              <p><strong>Welcome, {user?.username}</strong></p>
+              <p>{user?.email}</p>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-sm">
-                <p className="font-medium text-gray-900">Welcome, {user?.username}</p>
-                <p className="text-gray-500">{user?.email}</p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                Logout
-              </button>
-            </div>
+            <button
+              onClick={handleLogout}
+              style={{ 
+                backgroundColor: '#dc3545', 
+                color: 'white', 
+                padding: '8px 15px', 
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </header>
 
+      {/* Navigation Tabs */}
+      <nav style={{ borderBottom: '1px solid #ccc', padding: '10px 20px' }}>
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <button
+            onClick={() => setActiveTab('overview')}
+            style={{
+              padding: '10px 15px',
+              border: 'none',
+              backgroundColor: activeTab === 'overview' ? '#007bff' : 'transparent',
+              color: activeTab === 'overview' ? 'white' : 'black',
+              cursor: 'pointer'
+            }}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('courses')}
+            style={{
+              padding: '10px 15px',
+              border: 'none',
+              backgroundColor: activeTab === 'courses' ? '#007bff' : 'transparent',
+              color: activeTab === 'courses' ? 'white' : 'black',
+              cursor: 'pointer'
+            }}
+          >
+            Course Management
+          </button>
+          <button
+            onClick={() => setActiveTab('users')}
+            style={{
+              padding: '10px 15px',
+              border: 'none',
+              backgroundColor: activeTab === 'users' ? '#007bff' : 'transparent',
+              color: activeTab === 'users' ? 'white' : 'black',
+              cursor: 'pointer'
+            }}
+          >
+            User Management
+          </button>
+          <button
+            onClick={() => setActiveTab('reports')}
+            style={{
+              padding: '10px 15px',
+              border: 'none',
+              backgroundColor: activeTab === 'reports' ? '#007bff' : 'transparent',
+              color: activeTab === 'reports' ? 'white' : 'black',
+              cursor: 'pointer'
+            }}
+          >
+            Reports
+          </button>
+        </div>
+      </nav>
+
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg p-8">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Administrator Panel</h2>
-              <p className="text-gray-600 mb-8">
-                Manage the university course management system from this central dashboard.
-              </p>
+      <main style={{ padding: '20px' }}>
+        {activeTab === 'overview' && (
+          <div>
+            <h2>Administrator Panel</h2>
+            <p>Manage the university course management system from this central dashboard.</p>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '30px' }}>
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>User Management</h3>
+                <p>Manage students, lecturers, and administrators</p>
+                <button 
+                  onClick={() => setActiveTab('users')}
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#007bff', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                  Go to Users
+                </button>
+              </div>
               
-              {/* Admin Features */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">User Management</h3>
-                  <p className="text-gray-600 text-sm">Manage students, lecturers, and administrators</p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Course Management</h3>
-                  <p className="text-gray-600 text-sm">Create and manage university courses</p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Department Management</h3>
-                  <p className="text-gray-600 text-sm">Manage university departments</p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Enrollment Management</h3>
-                  <p className="text-gray-600 text-sm">Monitor student enrollments</p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Reports & Analytics</h3>
-                  <p className="text-gray-600 text-sm">View system reports and analytics</p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">System Settings</h3>
-                  <p className="text-gray-600 text-sm">Configure system settings</p>
-                </div>
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>Course Management</h3>
+                <p>Create and manage university courses</p>
+                <button 
+                  onClick={() => setActiveTab('courses')}
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#28a745', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                  Manage Courses
+                </button>
+              </div>
+              
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>Department Management</h3>
+                <p>Manage university departments</p>
+                <button 
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#6c757d', color: 'white', border: 'none', cursor: 'not-allowed' }}
+                  disabled
+                >
+                  Coming Soon
+                </button>
+              </div>
+              
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>Enrollment Management</h3>
+                <p>Monitor student enrollments</p>
+                <button 
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#6c757d', color: 'white', border: 'none', cursor: 'not-allowed' }}
+                  disabled
+                >
+                  Coming Soon
+                </button>
+              </div>
+              
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>Reports & Analytics</h3>
+                <p>View system reports and analytics</p>
+                <button 
+                  onClick={() => setActiveTab('reports')}
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#17a2b8', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                  View Reports
+                </button>
+              </div>
+              
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>System Settings</h3>
+                <p>Configure system settings</p>
+                <button 
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#6c757d', color: 'white', border: 'none', cursor: 'not-allowed' }}
+                  disabled
+                >
+                  Coming Soon
+                </button>
               </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {activeTab === 'courses' && <CourseManagement />}
+
+        {activeTab === 'users' && (
+          <div>
+            <h2>User Management</h2>
+            <p>User management functionality will be implemented here.</p>
+          </div>
+        )}
+
+        {activeTab === 'reports' && (
+          <div>
+            <h2>Reports & Analytics</h2>
+            <p>Reports and analytics functionality will be implemented here.</p>
+          </div>
+        )}
       </main>
     </div>
   );
