@@ -25,189 +25,196 @@ const Home = () => {
   return (
     <div className="fade-in">
       {/* Hero Section */}
-      <div className="header" style={{ padding: '60px 20px', textAlign: 'center' }}>
-        <div className="header-content" style={{ flexDirection: 'column', gap: '20px' }}>
-          <h1 style={{ fontSize: '48px', fontWeight: '800', marginBottom: '15px' }}>
-            UCMS - University Course Management System
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1 className="hero-title">
+            University Course Management System
           </h1>
-          <p style={{ fontSize: '20px', opacity: 0.9, maxWidth: '600px', margin: '0 auto' }}>
-            Your comprehensive academic management platform - empowering students, lecturers, and administrators
+          <p className="hero-subtitle">
+            Empowering students, lecturers, and administrators with a comprehensive 
+            academic management platform designed for modern university education.
           </p>
           {!isAuthenticated && (
-            <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '20px' }}>
-              <Link to="/login" className="btn btn-primary" style={{ fontSize: '16px', padding: '12px 25px' }}>
-                Sign In
+            <div className="hero-actions">
+              <Link to="/login" className="btn btn-primary btn-lg">
+                <span>🔐</span> Sign In
               </Link>
-              <Link to="/register" className="btn btn-secondary" style={{ fontSize: '16px', padding: '12px 25px' }}>
-                Join UCMS
+              <Link to="/register" className="btn btn-secondary btn-lg">
+                <span>✨</span> Join UCMS
               </Link>
             </div>
           )}
         </div>
-      </div>
+      </section>
 
-      {/* Main Content */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-        
-        {/* Welcome Message */}
-        <div className="card slide-up" style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div className="card-header">
-            <h2>Welcome to UCMS</h2>
-          </div>
-          <div style={{ padding: '30px' }}>
-            <p style={{ fontSize: '18px', color: 'var(--text-light)', lineHeight: '1.6' }}>
-              Seamlessly manage your academic journey with our comprehensive suite of tools designed 
-              for modern university education. Connect, learn, and excel in your academic endeavors.
+      {/* Features Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="modern-dashboard-container">
+          <div className="modern-dashboard-header">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Everything You Need for Academic Success
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Our platform provides comprehensive tools and features designed to streamline 
+              academic processes and enhance the learning experience.
             </p>
           </div>
-        </div>
 
-        {/* Role-Based Features */}
-        <div className="card-grid">
-          <div className="card slide-up" style={{ animationDelay: '0.1s' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '80px', 
-                background: 'linear-gradient(135deg, var(--primary-green), var(--secondary-green))',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 20px',
-                fontSize: '36px'
-              }}>
-                👨‍🎓
-              </div>
-              <h3 style={{ color: 'var(--primary-green-dark)', marginBottom: '15px' }}>For Students</h3>
-              <p style={{ color: 'var(--text-light)', lineHeight: '1.6', marginBottom: '20px' }}>
-                Access your courses, submit assignments, track academic progress, and connect with your learning community.
+          <div className="modern-grid modern-grid-cols-3 mt-12">
+            {/* Student Features */}
+            <div className="feature-card">
+              <div className="feature-icon">👨‍🎓</div>
+              <h3 className="text-xl font-semibold mb-4">For Students</h3>
+              <p className="text-gray-600 mb-6">
+                Access courses, track progress, and manage your academic journey with ease.
               </p>
-              <ul style={{ 
-                textAlign: 'left', 
-                color: 'var(--text-light)', 
-                marginBottom: '25px',
-                listStyle: 'none',
-                paddingLeft: '0'
-              }}>
-                <li style={{ padding: '5px 0' }}>✅ Course enrollment & materials</li>
-                <li style={{ padding: '5px 0' }}>✅ Assignment submission</li>
-                <li style={{ padding: '5px 0' }}>✅ Grade tracking & progress</li>
-                <li style={{ padding: '5px 0' }}>✅ Academic schedule management</li>
+              <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Course enrollment & materials
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Real-time grade tracking
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Academic progress monitoring
+                </li>
+                <li className="flex items-center">
+                  <span className="text-green-500 mr-2">✓</span>
+                  Course schedule management
+                </li>
               </ul>
               {!isAuthenticated && (
-                <Link to="/register" className="btn btn-primary">Join as Student</Link>
+                <Link to="/register" className="btn btn-primary w-full">
+                  Join as Student
+                </Link>
               )}
             </div>
-          </div>
 
-          <div className="card slide-up" style={{ animationDelay: '0.2s' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '80px', 
-                background: 'linear-gradient(135deg, var(--secondary-green), var(--accent-green))',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 20px',
-                fontSize: '36px'
-              }}>
-                👨‍🏫
-              </div>
-              <h3 style={{ color: 'var(--primary-green-dark)', marginBottom: '15px' }}>For Lecturers</h3>
-              <p style={{ color: 'var(--text-light)', lineHeight: '1.6', marginBottom: '20px' }}>
-                Manage courses, grade assignments, interact with students, and streamline your teaching workflow.
+            {/* Lecturer Features */}
+            <div className="feature-card">
+              <div className="feature-icon">👨‍🏫</div>
+              <h3 className="text-xl font-semibold mb-4">For Lecturers</h3>
+              <p className="text-gray-600 mb-6">
+                Manage courses, grade assignments, and engage with students effectively.
               </p>
-              <ul style={{ 
-                textAlign: 'left', 
-                color: 'var(--text-light)', 
-                marginBottom: '25px',
-                listStyle: 'none',
-                paddingLeft: '0'
-              }}>
-                <li style={{ padding: '5px 0' }}>✅ Course & student management</li>
-                <li style={{ padding: '5px 0' }}>✅ Assignment creation & grading</li>
-                <li style={{ padding: '5px 0' }}>✅ Teaching schedule & materials</li>
-                <li style={{ padding: '5px 0' }}>✅ Performance analytics</li>
+              <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                <li className="flex items-center">
+                  <span className="text-blue-500 mr-2">✓</span>
+                  Course content management
+                </li>
+                <li className="flex items-center">
+                  <span className="text-blue-500 mr-2">✓</span>
+                  Student assessment tools
+                </li>
+                <li className="flex items-center">
+                  <span className="text-blue-500 mr-2">✓</span>
+                  Grade recording & analytics
+                </li>
+                <li className="flex items-center">
+                  <span className="text-blue-500 mr-2">✓</span>
+                  Student progress insights
+                </li>
               </ul>
               {!isAuthenticated && (
-                <Link to="/register" className="btn btn-secondary">Join as Lecturer</Link>
+                <Link to="/register" className="btn btn-primary w-full">
+                  Join as Lecturer
+                </Link>
               )}
             </div>
-          </div>
 
-          <div className="card slide-up" style={{ animationDelay: '0.3s' }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '80px', 
-                background: 'linear-gradient(135deg, var(--accent-green), var(--primary-green))',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 20px',
-                fontSize: '36px'
-              }}>
-                👨‍💼
-              </div>
-              <h3 style={{ color: 'var(--primary-green-dark)', marginBottom: '15px' }}>For Administrators</h3>
-              <p style={{ color: 'var(--text-light)', lineHeight: '1.6', marginBottom: '20px' }}>
-                Oversee the entire system, manage users, courses, departments, and institutional settings.
+            {/* Admin Features */}
+            <div className="feature-card">
+              <div className="feature-icon">👨‍💼</div>
+              <h3 className="text-xl font-semibold mb-4">For Administrators</h3>
+              <p className="text-gray-600 mb-6">
+                Comprehensive system management and oversight capabilities.
               </p>
-              <ul style={{ 
-                textAlign: 'left', 
-                color: 'var(--text-light)', 
-                marginBottom: '25px',
-                listStyle: 'none',
-                paddingLeft: '0'
-              }}>
-                <li style={{ padding: '5px 0' }}>✅ System & user management</li>
-                <li style={{ padding: '5px 0' }}>✅ Reports & analytics</li>
-                <li style={{ padding: '5px 0' }}>✅ Institutional settings</li>
-                <li style={{ padding: '5px 0' }}>✅ Database administration</li>
+              <ul className="text-sm text-gray-600 space-y-2 mb-6">
+                <li className="flex items-center">
+                  <span className="text-purple-500 mr-2">✓</span>
+                  User & role management
+                </li>
+                <li className="flex items-center">
+                  <span className="text-purple-500 mr-2">✓</span>
+                  Course administration
+                </li>
+                <li className="flex items-center">
+                  <span className="text-purple-500 mr-2">✓</span>
+                  System-wide analytics
+                </li>
+                <li className="flex items-center">
+                  <span className="text-purple-500 mr-2">✓</span>
+                  Academic oversight tools
+                </li>
               </ul>
               {!isAuthenticated && (
-                <Link to="/register" className="btn btn-warning">Join as Admin</Link>
+                <Link to="/register" className="btn btn-primary w-full">
+                  Admin Access
+                </Link>
               )}
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Platform Benefits */}
-        <div className="card slide-up" style={{ animationDelay: '0.4s', marginTop: '40px' }}>
-          <div className="card-header">
-            <h2>Why Choose UCMS?</h2>
+      {/* Stats Section */}
+      <section className="py-16 bg-white">
+        <div className="modern-dashboard-container">
+          <div className="modern-dashboard-header">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Trusted by Academic Institutions
+            </h2>
+            <p className="text-lg text-gray-600">
+              Join thousands of users who trust UCMS for their academic management needs.
+            </p>
           </div>
-          <div style={{ padding: '30px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '48px', marginBottom: '15px' }}>🚀</div>
-                <h4 style={{ color: 'var(--primary-green)', marginBottom: '10px' }}>Modern & Fast</h4>
-                <p style={{ color: 'var(--text-light)', lineHeight: '1.6' }}>
-                  Built with cutting-edge technology for optimal performance and user experience.
-                </p>
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '48px', marginBottom: '15px' }}>🔒</div>
-                <h4 style={{ color: 'var(--primary-green)', marginBottom: '10px' }}>Secure & Reliable</h4>
-                <p style={{ color: 'var(--text-light)', lineHeight: '1.6' }}>
-                  Advanced security measures protect your academic data and personal information.
-                </p>
-              </div>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '48px', marginBottom: '15px' }}>🎯</div>
-                <h4 style={{ color: 'var(--primary-green)', marginBottom: '10px' }}>User-Focused</h4>
-                <p style={{ color: 'var(--text-light)', lineHeight: '1.6' }}>
-                  Intuitive design tailored to meet the unique needs of academic institutions.
-                </p>
-              </div>
+
+          <div className="modern-grid modern-grid-cols-4 mt-12">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
+              <div className="text-gray-600">Active Students</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-green-600 mb-2">50+</div>
+              <div className="text-gray-600">Expert Lecturers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-purple-600 mb-2">100+</div>
+              <div className="text-gray-600">Available Courses</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-orange-600 mb-2">99%</div>
+              <div className="text-gray-600">User Satisfaction</div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Call to Action */}
+      {!isAuthenticated && (
+        <section className="py-16 bg-gray-900 text-white">
+          <div className="modern-dashboard-container text-center">
+            <h2 className="text-3xl font-bold mb-4">
+              Ready to Transform Your Academic Experience?
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Join UCMS today and discover how our platform can streamline your 
+              academic processes and enhance your educational journey.
+            </p>
+            <div className="flex justify-center gap-4">
+              <Link to="/register" className="btn btn-primary btn-lg">
+                Get Started Free
+              </Link>
+              <Link to="/login" className="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-gray-900">
+                Sign In
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };

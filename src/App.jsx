@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './utils/ProtectedRoute';
+import Navigation from './components/NavigationNew';
 
 // Import Components
 import Home from './pages/Home';
@@ -12,6 +13,7 @@ import LecturerDashboard from './pages/LecturerDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 import Unauthorized from './pages/Unauthorized';
 import './App.css';
+import './modern-ui.css';
 
 // Dashboard Router Component
 const DashboardRouter = () => {
@@ -38,12 +40,14 @@ function App() {
     <AuthProvider>
       <Router>
         <div className="App">
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<UcmsRegister />} />
-            <Route path="/unauthorized" element={<Unauthorized />} />
+          <Navigation />
+          <main className="flex-1">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<UcmsRegister />} />
+              <Route path="/unauthorized" element={<Unauthorized />} />
             
             {/* Protected Routes */}
             <Route 
@@ -88,6 +92,7 @@ function App() {
             {/* Catch all route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          </main>
         </div>
       </Router>
     </AuthProvider>

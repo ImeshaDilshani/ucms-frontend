@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import StudentCourses from '../components/student/StudentCourses';
 import CourseEnrollment from '../components/student/CourseEnrollment';
 import MyCoursesNew from '../components/student/MyCoursesNew';
 import StudentResults from '../components/student/StudentResults';
 
 const StudentDashboard = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
   const [activeView, setActiveView] = useState('dashboard');
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   const renderActiveView = () => {
     switch (activeView) {
@@ -28,80 +21,98 @@ const StudentDashboard = () => {
         return <StudentResults />;
       default:
         return (
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Student Portal</h2>
-            <p className="text-gray-600 mb-8">Access your courses, assignments, and academic information from this dashboard.</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="fade-in">
+            {/* Dashboard Header */}
+            <div className="modern-dashboard-header">
+              <h1 className="modern-dashboard-title">
+                Welcome, {user?.firstName || user?.username}!
+              </h1>
+              <p className="modern-dashboard-subtitle">
+                Manage your academic journey from your student portal
+              </p>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="modern-grid modern-grid-cols-4 mb-8">
+              <div className="modern-card text-center">
+                <div className="modern-card-icon mx-auto">📚</div>
+                <h3 className="text-2xl font-bold text-gray-900 mt-4">5</h3>
+                <p className="text-gray-600">Enrolled Courses</p>
+              </div>
+              <div className="modern-card text-center">
+                <div className="modern-card-icon mx-auto bg-green-500">✅</div>
+                <h3 className="text-2xl font-bold text-gray-900 mt-4">3</h3>
+                <p className="text-gray-600">Completed</p>
+              </div>
+              <div className="modern-card text-center">
+                <div className="modern-card-icon mx-auto bg-orange-500">⏱️</div>
+                <h3 className="text-2xl font-bold text-gray-900 mt-4">2</h3>
+                <p className="text-gray-600">In Progress</p>
+              </div>
+              <div className="modern-card text-center">
+                <div className="modern-card-icon mx-auto bg-purple-500">🎯</div>
+                <h3 className="text-2xl font-bold text-gray-900 mt-4">85%</h3>
+                <p className="text-gray-600">Overall Grade</p>
+              </div>
+            </div>
+
+            {/* Main Actions */}
+            <div className="modern-grid modern-grid-cols-2 mb-8">
               <div 
-                className="border border-gray-200 rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-300 hover:bg-gray-50"
+                className="feature-card cursor-pointer"
                 onClick={() => setActiveView('enrollment')}
               >
-                <div className="text-blue-600 text-3xl mb-4">📚</div>
-                <h3 className="text-xl font-semibold mb-2">Course Enrollment</h3>
-                <p className="text-gray-600">Browse and register for available courses</p>
+                <div className="feature-icon">🔍</div>
+                <h3 className="modern-card-title">Course Enrollment</h3>
+                <p className="modern-card-description">
+                  Browse and register for available courses. Discover new subjects and expand your knowledge.
+                </p>
+                <button className="btn btn-primary mt-4">
+                  Browse Courses
+                </button>
               </div>
               
               <div 
-                className="border border-gray-200 rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-300 hover:bg-gray-50"
+                className="feature-card cursor-pointer"
                 onClick={() => setActiveView('my-courses')}
               >
-                <div className="text-green-600 text-3xl mb-4">✅</div>
-                <h3 className="text-xl font-semibold mb-2">My Registered Courses</h3>
-                <p className="text-gray-600">View and manage your enrolled courses</p>
+                <div className="feature-icon">📖</div>
+                <h3 className="modern-card-title">My Courses</h3>
+                <p className="modern-card-description">
+                  Access your registered courses, view materials, and track your progress.
+                </p>
+                <button className="btn btn-success mt-4">
+                  View My Courses
+                </button>
               </div>
+            </div>
 
+            <div className="modern-grid modern-grid-cols-2">
               <div 
-                className="border border-gray-200 rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-300 hover:bg-gray-50"
+                className="feature-card cursor-pointer"
                 onClick={() => setActiveView('results')}
               >
-                <div className="text-purple-600 text-3xl mb-4">🎯</div>
-                <h3 className="text-xl font-semibold mb-2">My Results</h3>
-                <p className="text-gray-600">View your academic results and grades</p>
+                <div className="feature-icon">📊</div>
+                <h3 className="modern-card-title">Academic Results</h3>
+                <p className="modern-card-description">
+                  Check your grades, view detailed performance reports, and track academic achievements.
+                </p>
+                <button className="btn btn-outline mt-4">
+                  View Results
+                </button>
               </div>
               
               <div 
-                className="border border-gray-200 rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-300 hover:bg-gray-50"
+                className="feature-card cursor-pointer"
                 onClick={() => setActiveView('courses')}
               >
-                <div className="text-purple-600 text-3xl mb-4">🔍</div>
-                <h3 className="text-xl font-semibold mb-2">Browse All Courses</h3>
-                <p className="text-gray-600">Explore all available courses</p>
-              </div>
-              
-              <div className="border border-gray-200 rounded-lg p-6 opacity-50">
-                <div className="text-gray-400 text-3xl mb-4">📝</div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-500">Assignments</h3>
-                <p className="text-gray-500">View and submit course assignments</p>
-                <button 
-                  className="mt-3 px-4 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
-                  disabled
-                >
-                  Coming Soon
-                </button>
-              </div>
-              
-              <div className="border border-gray-200 rounded-lg p-6 opacity-50">
-                <div className="text-gray-400 text-3xl mb-4">🎯</div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-500">Grades</h3>
-                <p className="text-gray-500">Check your grades and academic progress</p>
-                <button 
-                  className="mt-3 px-4 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
-                  disabled
-                >
-                  Coming Soon
-                </button>
-              </div>
-              
-              <div className="border border-gray-200 rounded-lg p-6 opacity-50">
-                <div className="text-gray-400 text-3xl mb-4">📅</div>
-                <h3 className="text-xl font-semibold mb-2 text-gray-500">Class Schedule</h3>
-                <p className="text-gray-500">View your class timetable</p>
-                <button 
-                  className="mt-3 px-4 py-2 bg-gray-300 text-gray-500 rounded cursor-not-allowed"
-                  disabled
-                >
-                  Coming Soon
+                <div className="feature-icon">📋</div>
+                <h3 className="modern-card-title">Course Management</h3>
+                <p className="modern-card-description">
+                  Manage your course schedule, access course materials, and stay organized.
+                </p>
+                <button className="btn btn-outline mt-4">
+                  Manage Courses
                 </button>
               </div>
             </div>
@@ -111,81 +122,33 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Student Dashboard</h1>
-              <p className="text-gray-600">University Course Management System</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="font-medium text-gray-900">Welcome, {user?.username}</p>
-                <p className="text-sm text-gray-600">{user?.email}</p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
+    <div className="modern-dashboard-container">
+      {/* Enhanced Navigation Tabs */}
+      <div className="dashboard-tab-navigation">
+        <div className="flex flex-wrap gap-1">
+          {[
+            { key: 'dashboard', label: 'Dashboard', icon: '🏠' },
+            { key: 'enrollment', label: 'Enroll', icon: '📚' },
+            { key: 'my-courses', label: 'My Courses', icon: '✅' },
+            { key: 'results', label: 'Results', icon: '📊' },
+            { key: 'courses', label: 'Browse', icon: '📋' }
+          ].map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveView(tab.key)}
+              className={`tab-button ${activeView === tab.key ? 'active' : ''}`}
+            >
+              <span className="tab-icon">{tab.icon}</span>
+              <span className="hidden sm:inline font-semibold">{tab.label}</span>
+            </button>
+          ))}
         </div>
-      </header>
+      </div>
 
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8 overflow-x-auto">
-            <button
-              onClick={() => setActiveView('dashboard')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
-                activeView === 'dashboard'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              🏠 Dashboard
-            </button>
-            <button
-              onClick={() => setActiveView('enrollment')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
-                activeView === 'enrollment'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              📚 Course Enrollment
-            </button>
-            <button
-              onClick={() => setActiveView('my-courses')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
-                activeView === 'my-courses'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              ✅ My Courses
-            </button>
-            <button
-              onClick={() => setActiveView('courses')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
-                activeView === 'courses'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              � Browse Courses
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Active View Content */}
+      <div className="min-h-96">
         {renderActiveView()}
-      </main>
+      </div>
     </div>
   );
 };
