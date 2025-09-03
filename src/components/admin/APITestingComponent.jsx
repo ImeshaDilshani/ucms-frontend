@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import courseRegistrationService from '../../services/courseRegistrationService';
 import courseService from '../../services/courseService';
+import gradingService from '../../services/gradingService';
 
 const APITestingComponent = () => {
   const [results, setResults] = useState('');
   const [loading, setLoading] = useState(false);
   const [courseId, setCourseId] = useState('1');
   const [studentNumber, setStudentNumber] = useState('CS/2020/001');
+  const [studentId, setStudentId] = useState('1');
+  const [marks, setMarks] = useState('85.5');
 
   const logResult = (label, data) => {
     const timestamp = new Date().toLocaleTimeString();
@@ -95,6 +98,60 @@ const APITestingComponent = () => {
         () => courseService.getAllCourses(),
         'Get All Courses'
       )
+    },
+    {
+      label: 'Get Gradable Courses (Lecturer)',
+      action: () => testAPI(
+        () => gradingService.getGradableCourses(),
+        'Get Gradable Courses'
+      )
+    },
+    {
+      label: 'Get Enrolled Students for Course (Lecturer)',
+      action: () => testAPI(
+        () => gradingService.getEnrolledStudents(parseInt(courseId)),
+        `Get Enrolled Students for Course ID: ${courseId}`
+      )
+    },
+    {
+      label: 'Submit Grade (Lecturer)',
+      action: () => testAPI(
+        () => gradingService.submitGrade({
+          studentId: parseInt(studentId),
+          courseId: parseInt(courseId),
+          marks: parseFloat(marks),
+          remarks: 'Test grade submission'
+        }),
+        `Submit Grade - Student: ${studentId}, Course: ${courseId}, Marks: ${marks}`
+      )
+    },
+    {
+      label: 'Get Course Results (Lecturer)',
+      action: () => testAPI(
+        () => gradingService.getCourseResults(parseInt(courseId)),
+        `Get Course Results for Course ID: ${courseId}`
+      )
+    },
+    {
+      label: 'Release Course Results (Lecturer)',
+      action: () => testAPI(
+        () => gradingService.releaseResults(parseInt(courseId)),
+        `Release Results for Course ID: ${courseId}`
+      )
+    },
+    {
+      label: 'Get My Results (Student)',
+      action: () => testAPI(
+        () => gradingService.getMyResults(),
+        'Get My Results'
+      )
+    },
+    {
+      label: 'Get Student Results by Number (Admin)',
+      action: () => testAPI(
+        () => gradingService.getStudentResults(studentNumber),
+        `Get Student Results for: ${studentNumber}`
+      )
     }
   ];
 
@@ -129,6 +186,29 @@ const APITestingComponent = () => {
                   onChange={(e) => setStudentNumber(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter student number (e.g., CS/2020/001)"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Student ID</label>
+                <input
+                  type="number"
+                  value={studentId}
+                  onChange={(e) => setStudentId(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter student ID (e.g., 1)"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Marks</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="100"
+                  value={marks}
+                  onChange={(e) => setMarks(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter marks (0-100)"
                 />
               </div>
             </div>
@@ -171,7 +251,7 @@ const APITestingComponent = () => {
       {/* API Documentation */}
       <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-blue-900 mb-4">API Endpoints Reference</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div>
             <h4 className="font-medium text-blue-800 mb-2">Student Endpoints:</h4>
             <ul className="space-y-1 text-blue-700">
@@ -180,6 +260,17 @@ const APITestingComponent = () => {
               <li>• GET /api/v1/students/course-registrations/my-courses</li>
               <li>• GET /api/v1/students/course-registrations/check/{'{courseId}'}</li>
               <li>• DELETE /api/v1/students/course-registrations/unregister/{'{courseId}'}</li>
+              <li>• GET /api/v1/students/results/my-results</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-medium text-blue-800 mb-2">Lecturer Endpoints:</h4>
+            <ul className="space-y-1 text-blue-700">
+              <li>• GET /api/v1/lecturers/grading/courses</li>
+              <li>• GET /api/v1/lecturers/grading/courses/{'{courseId}'}/students</li>
+              <li>• POST /api/v1/lecturers/grading/submit-grade</li>
+              <li>• GET /api/v1/lecturers/grading/courses/{'{courseId}'}/results</li>
+              <li>• POST /api/v1/lecturers/grading/courses/{'{courseId}'}/release-results</li>
             </ul>
           </div>
           <div>
@@ -189,6 +280,7 @@ const APITestingComponent = () => {
               <li>• GET /api/v1/students/course-registrations/student/{'{studentNumber}'}</li>
               <li>• GET /api/v1/students/course-registrations/course/{'{courseId}'}</li>
               <li>• GET /api/v1/courses</li>
+              <li>• GET /api/v1/students/results/student/{'{studentNumber}'}</li>
             </ul>
           </div>
         </div>

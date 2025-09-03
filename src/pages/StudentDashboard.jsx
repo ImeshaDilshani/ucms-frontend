@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import StudentCourses from '../components/student/StudentCourses';
 import CourseEnrollment from '../components/student/CourseEnrollment';
 import MyCoursesNew from '../components/student/MyCoursesNew';
+import StudentResults from '../components/student/StudentResults';
 
 const StudentDashboard = () => {
   const { user, logout } = useAuth();
@@ -23,6 +24,8 @@ const StudentDashboard = () => {
         return <CourseEnrollment />;
       case 'my-courses':
         return <MyCoursesNew />;
+      case 'results':
+        return <StudentResults />;
       default:
         return (
           <div className="text-center">
@@ -46,6 +49,15 @@ const StudentDashboard = () => {
                 <div className="text-green-600 text-3xl mb-4">✅</div>
                 <h3 className="text-xl font-semibold mb-2">My Registered Courses</h3>
                 <p className="text-gray-600">View and manage your enrolled courses</p>
+              </div>
+
+              <div 
+                className="border border-gray-200 rounded-lg p-6 cursor-pointer hover:shadow-lg transition-all duration-300 hover:bg-gray-50"
+                onClick={() => setActiveView('results')}
+              >
+                <div className="text-purple-600 text-3xl mb-4">🎯</div>
+                <h3 className="text-xl font-semibold mb-2">My Results</h3>
+                <p className="text-gray-600">View your academic results and grades</p>
               </div>
               
               <div 

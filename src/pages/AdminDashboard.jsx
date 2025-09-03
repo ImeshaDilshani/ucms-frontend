@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import CourseManagement from '../components/admin/CourseManagement';
 import CourseRegistrationManagement from '../components/admin/CourseRegistrationManagement';
 import APITestingComponent from '../components/admin/APITestingComponent';
+import AdminStudentResults from '../components/admin/AdminStudentResults';
 
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
@@ -120,6 +121,18 @@ const AdminDashboard = () => {
           >
             API Testing
           </button>
+          <button
+            onClick={() => setActiveTab('student-results')}
+            style={{
+              padding: '10px 15px',
+              border: 'none',
+              backgroundColor: activeTab === 'student-results' ? '#007bff' : 'transparent',
+              color: activeTab === 'student-results' ? 'white' : 'black',
+              cursor: 'pointer'
+            }}
+          >
+            Student Results
+          </button>
         </div>
       </nav>
 
@@ -198,6 +211,17 @@ const AdminDashboard = () => {
               </div>
               
               <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>Student Results</h3>
+                <p>View student academic results and grades</p>
+                <button 
+                  onClick={() => setActiveTab('student-results')}
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#8B5CF6', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                  View Results
+                </button>
+              </div>
+              
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
                 <h3>System Settings</h3>
                 <p>Configure system settings</p>
                 <button 
@@ -230,6 +254,8 @@ const AdminDashboard = () => {
         )}
         
         {activeTab === 'api-testing' && <APITestingComponent />}
+        
+        {activeTab === 'student-results' && <AdminStudentResults />}
       </main>
     </div>
   );
