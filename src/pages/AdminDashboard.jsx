@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CourseManagement from '../components/admin/CourseManagement';
+import CourseRegistrationManagement from '../components/admin/CourseRegistrationManagement';
+import APITestingComponent from '../components/admin/APITestingComponent';
 
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
@@ -71,6 +73,18 @@ const AdminDashboard = () => {
             Course Management
           </button>
           <button
+            onClick={() => setActiveTab('registrations')}
+            style={{
+              padding: '10px 15px',
+              border: 'none',
+              backgroundColor: activeTab === 'registrations' ? '#007bff' : 'transparent',
+              color: activeTab === 'registrations' ? 'white' : 'black',
+              cursor: 'pointer'
+            }}
+          >
+            Course Registrations
+          </button>
+          <button
             onClick={() => setActiveTab('users')}
             style={{
               padding: '10px 15px',
@@ -93,6 +107,18 @@ const AdminDashboard = () => {
             }}
           >
             Reports
+          </button>
+          <button
+            onClick={() => setActiveTab('api-testing')}
+            style={{
+              padding: '10px 15px',
+              border: 'none',
+              backgroundColor: activeTab === 'api-testing' ? '#007bff' : 'transparent',
+              color: activeTab === 'api-testing' ? 'white' : 'black',
+              cursor: 'pointer'
+            }}
+          >
+            API Testing
           </button>
         </div>
       </nav>
@@ -139,6 +165,17 @@ const AdminDashboard = () => {
               </div>
               
               <div style={{ border: '1px solid #ccc', padding: '20px' }}>
+                <h3>Course Registrations</h3>
+                <p>View and manage student course registrations</p>
+                <button 
+                  onClick={() => setActiveTab('registrations')}
+                  style={{ marginTop: '10px', padding: '8px 15px', backgroundColor: '#dc3545', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                  Manage Registrations
+                </button>
+              </div>
+              
+              <div style={{ border: '1px solid #ccc', padding: '20px' }}>
                 <h3>Enrollment Management</h3>
                 <p>Monitor student enrollments</p>
                 <button 
@@ -175,6 +212,8 @@ const AdminDashboard = () => {
         )}
 
         {activeTab === 'courses' && <CourseManagement />}
+        
+        {activeTab === 'registrations' && <CourseRegistrationManagement />}
 
         {activeTab === 'users' && (
           <div>
@@ -189,6 +228,8 @@ const AdminDashboard = () => {
             <p>Reports and analytics functionality will be implemented here.</p>
           </div>
         )}
+        
+        {activeTab === 'api-testing' && <APITestingComponent />}
       </main>
     </div>
   );
